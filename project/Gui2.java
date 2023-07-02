@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Gui2 extends JFrame {
+public class cons extends JFrame {
     private JTextField ia1TextField;
     private JTextField ia2TextField;
     private JTextField ia3TextField;
@@ -12,7 +12,7 @@ public class Gui2 extends JFrame {
     private JTextField seeTextField;
     private JButton calculateButton;
 
-    public Gui2() {
+    public cons() {
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (Exception ex) {
@@ -57,7 +57,11 @@ public class Gui2 extends JFrame {
         calculateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                calculateGrade();
+                try {
+                    calculateGrade();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(cons.this, "Invalid input. Please enter valid numeric values.");
+                }
             }
         });
 
@@ -71,11 +75,17 @@ public class Gui2 extends JFrame {
     }
 
     private void calculateGrade() {
-        int ia1Marks = Integer.parseInt(ia1TextField.getText());
-        int ia2Marks = Integer.parseInt(ia2TextField.getText());
-        int ia3Marks = Integer.parseInt(ia3TextField.getText());
-        int ctaMarks = Integer.parseInt(ctaTextField.getText());
-        int seeMarks = Integer.parseInt(seeTextField.getText());
+        int ia1Marks, ia2Marks, ia3Marks, ctaMarks, seeMarks;
+
+        try {
+            ia1Marks = Integer.parseInt(ia1TextField.getText());
+            ia2Marks = Integer.parseInt(ia2TextField.getText());
+            ia3Marks = Integer.parseInt(ia3TextField.getText());
+            ctaMarks = Integer.parseInt(ctaTextField.getText());
+            seeMarks = Integer.parseInt(seeTextField.getText());
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException();
+        }
 
         int cie = ia1Marks + ia2Marks + ia3Marks + ctaMarks;
         int see = seeMarks;
@@ -92,7 +102,7 @@ public class Gui2 extends JFrame {
             return;
         }
 
-        double totalMarks = (cie) + see / 2.0;
+        double totalMarks = (cie + see) / 2.0;
         int roundedMarks = (int) Math.round(totalMarks);
 
         String grade;
@@ -118,7 +128,7 @@ public class Gui2 extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new Gui2();
+                new cons();
             }
         });
     }
