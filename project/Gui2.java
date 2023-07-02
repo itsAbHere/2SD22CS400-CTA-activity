@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Font;
 
 public class Gui2 extends JFrame {
     private JTextField ia1TextField;
@@ -28,33 +27,28 @@ public class Gui2 extends JFrame {
         setLayout(new GridLayout(6, 2, 10, 10));
         getContentPane().setBackground(new Color(255, 204, 153)); // Set background color to light orange
 
-        Font labelFont = new Font("Montserrat", Font.PLAIN, 22); // Create a Font object for Montserrat with size 22
-        Font buttonFont = new Font("Arial", Font.BOLD, 18); // Create a Font object for Arial with size 18 and bold style
-
-        add(createLabel("IA-1 Marks:", labelFont));
+        add(new JLabel("IA-1 Marks:"));
         ia1TextField = new JTextField();
         add(ia1TextField);
 
-        add(createLabel("IA-2 Marks:", labelFont));
+        add(new JLabel("IA-2 Marks:"));
         ia2TextField = new JTextField();
         add(ia2TextField);
 
-        add(createLabel("IA-3 Marks:", labelFont));
+        add(new JLabel("IA-3 Marks:"));
         ia3TextField = new JTextField();
         add(ia3TextField);
 
-        add(createLabel("CTA Marks:", labelFont));
+        add(new JLabel("CTA Marks:"));
         ctaTextField = new JTextField();
         add(ctaTextField);
 
-        add(createLabel("SEE Marks:", labelFont));
+        add(new JLabel("SEE Marks:"));
         seeTextField = new JTextField();
         add(seeTextField);
 
         calculateButton = new JButton("Calculate");
         calculateButton.setBackground(Color.WHITE); // Set button color to white
-        calculateButton.setFont(buttonFont); // Set the font for the button text
-        calculateButton.setHorizontalAlignment(SwingConstants.CENTER); // Center align the button
         add(calculateButton);
 
         calculateButton.addActionListener(new ActionListener() {
@@ -67,14 +61,55 @@ public class Gui2 extends JFrame {
         setVisible(true);
     }
 
-    private JLabel createLabel(String text, Font font) {
-        JLabel label = new JLabel(text);
-        label.setFont(font);
-        return label;
-    }
-
     private void calculateGrade() {
-        // Rest of the code remains unchanged
+        try {
+            int ia1 = Integer.parseInt(ia1TextField.getText());
+            int ia2 = Integer.parseInt(ia2TextField.getText());
+            int ia3 = Integer.parseInt(ia3TextField.getText());
+            int cta = Integer.parseInt(ctaTextField.getText());
+            int see = Integer.parseInt(seeTextField.getText());
+
+            if (ia1 < 0 || ia1 > 20 || ia2 < 0 || ia2 > 20 || ia3 < 0 || ia3 > 20 ||
+                    cta < 0 || cta > 10 || see < 0 || see > 100) {
+                throw new IllegalArgumentException("Invalid marks entered!");
+            }
+
+            int cie = Math.max(ia1, Math.max(ia2, ia3)) + Math.min(ia1, Math.min(ia2, ia3)) + cta;
+
+            if (cie < 20) {
+                JOptionPane.showMessageDialog(null, "Student is detained from taking SEE");
+                return;
+            }
+
+            if (see == 38 || see == 39) {
+                see = 40;
+            }
+
+            int totalMarks = cie + (see / 2);
+
+            String grade;
+            if (totalMarks >= 90 && totalMarks <= 100) {
+                grade = "S";
+            } else if (totalMarks >= 80 && totalMarks < 90) {
+                grade = "A";
+            } else if (totalMarks >= 70 && totalMarks < 80) {
+                grade = "B";
+            } else if (totalMarks >= 60 && totalMarks < 70) {
+                grade = "C";
+            } else if (totalMarks >= 50 && totalMarks < 60) {
+                grade = "D";
+            } else if (totalMarks >= 40 && totalMarks < 50) {
+                grade = "E";
+            } else {
+                grade = "F";
+            }
+
+            JOptionPane.showMessageDialog(null, "Grade: " + grade);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Invalid marks entered! Please enter valid numeric values.");
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }
 
     public static void main(String[] args) {
@@ -85,3 +120,4 @@ public class Gui2 extends JFrame {
         });
     }
 }
+
