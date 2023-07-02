@@ -24,10 +24,10 @@ public class cons extends JFrame {
         setSize(400, 300);
         setLocationRelativeTo(null);
         setLayout(new GridLayout(6, 2, 10, 10));
-        getContentPane().setBackground(new Color(255, 204, 153)); // Set background color to light orange
+        getContentPane().setBackground(new Color(255, 204, 153)); // Set background color 
 
-        Font labelFont = new Font("Montserrat", Font.PLAIN, 20); // Create a Font object for Montserrat with size 20
-        Font buttonFont = new Font("Arial", Font.PLAIN, 20); // Create a Font object for Arial with size 20
+        Font labelFont = new Font("Montserrat", Font.PLAIN, 20); // Create a Font object
+        Font buttonFont = new Font("Arial", Font.PLAIN, 20); // Create a Font object
 
         add(createLabel("IA-1 Marks:", labelFont));
         ia1TextField = new JTextField();
@@ -50,7 +50,7 @@ public class cons extends JFrame {
         add(seeTextField);
 
         calculateButton = new JButton("Calculate");
-        calculateButton.setBackground(Color.WHITE); // Set button color to white
+        calculateButton.setBackground(Color.WHITE); // Set button color 
         calculateButton.setFont(buttonFont); // Set the font for the button text
         add(calculateButton);
 
